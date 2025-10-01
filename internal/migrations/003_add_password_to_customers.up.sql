@@ -1,0 +1,2 @@
+ALTER TABLE customers
+ADD COLUMN password TEXT NOT NULL;
