@@ -2,7 +2,7 @@
 # ⚡ Technical Interview Project
 
 ![CI](https://img.shields.io/github/actions/workflow/status/chesireabel/technical_interview/ci.yml?label=CI&logo=github)
-![Docker Pulls](https://img.shields.io/docker/pulls/chesireabel/<DOCKER_REPO>)
+![Docker Pulls](https://img.shields.io/docker/pulls/abelchesire/technical-interview)
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-Deployed-blue?logo=kubernetes)
 
 ---
