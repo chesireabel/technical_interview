@@ -32,9 +32,13 @@ A full-stack app containerized with **Docker**, deployed to **Kubernetes** via *
 
 ## ⚡ Quickstart (local)
 ```bash
+# 1. Clone your repo
 git clone https://github.com/chesireabel/technical_interview.git
 cd technical_interview
 
+# 2. Build the Docker image and tag it
 docker build -t abelchesire/technical-interview:dev .
+
+# 3. Run the container locally, mapping port 8081
 docker run -p 8081:8081 abelchesire/technical-interview:dev
 
