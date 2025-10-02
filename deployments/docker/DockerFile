@@ -1,0 +1,34 @@
+# Stage 1: Build
+FROM golang:1.25.1-alpine AS builder
+
+WORKDIR /app
+
+# Copy only dependencies first for caching
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copy rest of the code
+COPY . .
+
+# Ensure migrations folder is copied too
+RUN go build -o main .
+
+# Stage 2: Run
+FROM alpine:latest
+
+WORKDIR /app
+
+# Copy the built binary
+COPY --from=builder /app/main .
+
+# Copy .env if needed (can also be mounted in Docker Compose)
+COPY .env .
+
+# Copy migrations folder
+COPY internal/migrations /app/internal/migrations
+
+EXPOSE 8081
+
+
+
+CMD ["./main"]

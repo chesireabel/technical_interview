@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:17
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-admin} -d ${POSTGRES_DB:-technical_interview}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: ../..
+      dockerfile: deployments/docker/DockerFile
+    ports:
+      - "${PORT}:8081"
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: on-failure
+
+volumes:
+  postgres_data:

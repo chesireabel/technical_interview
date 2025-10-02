@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "technical-interview.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "technical-interview.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "technical-interview.name" . }}
+    spec:
+      containers:
+        - name: {{ include "technical-interview.name" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: PORT
+              value: "{{ .Values.env.PORT }}"
+            - name: ENV
+              value: "{{ .Values.env.ENV }}"
+            - name: APP_URL
+              value: "{{ .Values.env.APP_URL }}"
+            - name: DB_HOST
+              value: "{{ .Values.env.DB_HOST }}"
+            - name: DB_PORT
+              value: "{{ .Values.env.DB_PORT }}"
+            - name: DB_USER
+              value: "{{ .Values.env.DB_USER }}"
+            - name: DB_NAME
+              value: "{{ .Values.env.DB_NAME }}"
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "technical-interview.fullname" . }}-secrets
+                  key: DB_PASSWORD
+            - name: AUTH0_CLIENT_ID
+              value: "{{ .Values.env.AUTH0_CLIENT_ID }}"
+            - name: AUTH0_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "technical-interview.fullname" . }}-secrets
+                  key: AUTH0_CLIENT_SECRET
+            - name: AUTH0_REDIRECT_URL
+              value: "{{ .Values.env.AUTH0_REDIRECT_URL }}"
+            - name: AUTH0_PROVIDER_URL
+              value: "{{ .Values.env.AUTH0_PROVIDER_URL }}"
+            - name: AT_USERNAME
+              value: "{{ .Values.env.AT_USERNAME }}"
+            - name: AT_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "technical-interview.fullname" . }}-secrets
+                  key: AT_API_KEY
+            - name: AT_BASE_URL
+              value: "{{ .Values.env.AT_BASE_URL }}"
+            - name: AT_SHORT_CODE
+              value: "{{ .Values.env.AT_SHORT_CODE }}"
+            - name: SESSION_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "technical-interview.fullname" . }}-secrets
+                  key: SESSION_SECRET
+          ports:
+            - containerPort: {{ .Values.env.PORT }}

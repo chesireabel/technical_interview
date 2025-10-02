@@ -1,0 +1,57 @@
+# Development environment values
+replicaCount: 1
+
+image:
+  repository: abelchesire/technical-interview
+  tag: "dev"
+  pullPolicy: Always
+
+app:
+  ginMode: debug
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  hosts:
+    - host: technical-interview-dev.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+autoscaling:
+  enabled: false
+
+postgresql:
+  auth:
+    password: dev-password
+  primary:
+    persistence:
+      size: 5Gi
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+  readReplicas:
+    replicaCount: 0
+
+secrets:
+  dbPassword: "dev-password"
+  oidcClientSecret: "dev-client-secret"
+  smsApiSecret: "dev-sms-secret"
+
+config:
+  environment: development
