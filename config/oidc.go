@@ -82,14 +82,14 @@ func InitOIDC(ctx context.Context, cfg OIDCInitConfig) (*middleware.OIDC, error)
 	case res := <-resultCh:
 		if res.err != nil {
 			// Don't expose sensitive details in error
-			log.Printf("❌ OIDC initialization failed: %v", sanitizeError(res.err))
+			log.Printf("OIDC initialization failed: %v", sanitizeError(res.err))
 			return nil, fmt.Errorf("failed to initialize OIDC: %w", res.err)
 		}
 		// Log success without exposing sensitive data
-		log.Printf("✅ OIDC authentication initialized (issuer: %s)", maskURL(envVars["AUTH0_PROVIDER_URL"]))
+		log.Printf("OIDC authentication initialized (issuer: %s)", maskURL(envVars["AUTH0_PROVIDER_URL"]))
 		return res.oidc, nil
 	case <-initCtx.Done():
-		log.Printf("❌ OIDC initialization timed out after %v", cfg.InitTimeout)
+		log.Printf("OIDC initialization timed out after %v", cfg.InitTimeout)
 		return nil, fmt.Errorf("OIDC initialization timed out after %v", cfg.InitTimeout)
 	}
 }
