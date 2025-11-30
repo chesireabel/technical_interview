@@ -8,7 +8,7 @@
 ---
 
 ## 📖 Overview
-A full-stack app containerized with **Docker**, deployed to **Kubernetes** via **Helm**, and using **GitHub Actions** for CI/CD.
+A simple Go service containerized with **Docker**, deployed to **Kubernetes** via **Helm**, and using **GitHub Actions** for CI/CD.
 
 ---
 
